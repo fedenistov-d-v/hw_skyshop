@@ -2,7 +2,7 @@ package org.skypro.skyshop.product;
 
 import java.util.Objects;
 
-public class SimpleProduct extends Product{
+public class SimpleProduct extends Product {
 
     private final int price;
 
@@ -31,7 +31,7 @@ public class SimpleProduct extends Product{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         SimpleProduct that = (SimpleProduct) o;
-        return price == that.price;
+        return name.equals(that.name) && price == that.price;
     }
 
     @Override

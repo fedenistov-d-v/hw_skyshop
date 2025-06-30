@@ -34,7 +34,9 @@ public class DiscountedProduct extends Product {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         DiscountedProduct that = (DiscountedProduct) o;
-        return price == that.price && discountInPercent == that.discountInPercent;
+        return name.equals(that.name) &&
+                price == that.price &&
+                discountInPercent == that.discountInPercent;
     }
 
     @Override

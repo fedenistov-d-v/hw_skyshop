@@ -28,6 +28,7 @@ public class FixPriceProduct extends Product {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        return true;
+        FixPriceProduct that = (FixPriceProduct) o;
+        return name.equals(that.name);
     }
 }
