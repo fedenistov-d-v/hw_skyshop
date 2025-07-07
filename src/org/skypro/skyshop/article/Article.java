@@ -4,7 +4,7 @@ import org.skypro.skyshop.utils.Searchable;
 
 import java.util.Objects;
 
-public class Article implements Searchable {
+public final class Article implements Searchable {
     private final String headline;
     private final String text;
 
