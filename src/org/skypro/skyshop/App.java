@@ -2,26 +2,41 @@ package org.skypro.skyshop;
 
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.exceptions.BestResultNotFound;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
-import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.utils.SearchEngine;
 import org.skypro.skyshop.utils.Searchable;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) {
-        final SimpleProduct apples = new SimpleProduct("Яблоки", 149);
-        final DiscountedProduct oranges = new DiscountedProduct("Апельсины", 300, 15);
-        final DiscountedProduct peaches = new DiscountedProduct("Персики", 500, 22);
-        final FixPriceProduct bananas = new FixPriceProduct("Бананы");
-        final SimpleProduct pears = new SimpleProduct("Груши", 249);
-        final SimpleProduct watermelons = new SimpleProduct("Арбузы", 25);
+        SimpleProduct apples = null;
+        DiscountedProduct oranges = null;
+        DiscountedProduct peaches = null;
+        FixPriceProduct bananas = null;
+        SimpleProduct pears = null;
+        SimpleProduct watermelons = null;
+        SimpleProduct melons = null;
+        SimpleProduct plums = null;
+        DiscountedProduct strawberry = null;
 
+        try {
+            apples = new SimpleProduct("Яблоки", 149);
+            oranges = new DiscountedProduct("Апельсины", 300, 15);
+            peaches = new DiscountedProduct("Персики", 500, 22);
+            bananas = new FixPriceProduct("Бананы");
+            pears = new SimpleProduct("Груши", 249);
+            watermelons = new SimpleProduct("Арбузы", 25);
+            melons = new SimpleProduct(" ", 25);
+            plums = new SimpleProduct("Сливы", 0);
+            strawberry = new DiscountedProduct("Клубника", 800, 101);
+        } catch (IllegalArgumentException e) {
+            System.out.println("   !!! Исключение: " + e);
+//            e.printStackTrace();
+        }
         ProductBasket firstBasket = new ProductBasket();
 
         firstBasket.add(apples);
@@ -76,6 +91,21 @@ public class App {
                 System.out.println(searchable.getStringRepresentation());
             }
         }
+        System.out.println("   --- SearchEngine.searchForMostSuitable(\"о\") ---");
+        try {
+            System.out.println(searchEngine.searchForMostSuitable("о"));
+        } catch (BestResultNotFound e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
+        }
+        System.out.println("   --- SearchEngine.searchForMostSuitable(\"Кукуруза\") ---");
+        try {
+            System.out.println(searchEngine.searchForMostSuitable("Кукуруза"));
+        } catch (BestResultNotFound e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
+        }
+        System.out.println("Завершение проверки кода.");
     }
 
     public static void findInBasket(ProductBasket basket, String name) {
