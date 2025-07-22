@@ -1,8 +1,7 @@
 package org.skypro.skyshop.utils;
 
-import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.exceptions.BestResultNotFound;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -25,6 +24,35 @@ public class SearchEngine {
             if (count == NUMBER_OF_FOUND) break;
         }
         return foundContents;
+    }
+
+    public Searchable searchForMostSuitable(String search) throws BestResultNotFound {
+        Searchable result = null;
+        int numberOfMatches = 0;
+        for (Searchable content : contents) {
+            int number = сountingMatches(content.getSearchTerm(), search);
+            if (number > numberOfMatches) {
+                result = content;
+                numberOfMatches = number;
+            }
+        }
+        if (result == null) {
+            throw new BestResultNotFound(search);
+        }
+        return result;
+    }
+
+    private int сountingMatches(String str, String substring) {
+        int number = 0;
+        int index = 0;
+        int indexSubstring = str.indexOf(substring, index);
+
+        while (indexSubstring != -1) {
+            number++;
+            index = indexSubstring + substring.length();
+            indexSubstring = str.indexOf(substring, index);
+        }
+        return number;
     }
 
     public void add(Searchable object) {
