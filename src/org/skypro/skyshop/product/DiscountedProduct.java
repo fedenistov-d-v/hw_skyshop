@@ -31,7 +31,7 @@ public class DiscountedProduct extends Product {
 
     @Override
     public String toString() {
-        return String.format("%s: %d (%d%%)%n",
+        return String.format("%s: %d (%d%%)",
                 name, getPrice(), discountInPercent);
     }
 

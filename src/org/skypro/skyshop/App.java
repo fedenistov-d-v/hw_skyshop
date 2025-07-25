@@ -5,11 +5,13 @@ import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.exceptions.BestResultNotFound;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
+import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.utils.SearchEngine;
 import org.skypro.skyshop.utils.Searchable;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class App {
     public static void main(String[] args) {
@@ -35,27 +37,28 @@ public class App {
             strawberry = new DiscountedProduct("Клубника", 800, 101);
         } catch (IllegalArgumentException e) {
             System.out.println("   !!! Исключение: " + e);
-//            e.printStackTrace();
         }
-        ProductBasket firstBasket = new ProductBasket();
+        ProductBasket basket = new ProductBasket();
 
-        firstBasket.add(apples);
-        firstBasket.add(oranges);
-        firstBasket.add(peaches);
-        firstBasket.add(bananas);
-        firstBasket.add(pears);
-        firstBasket.add(watermelons);
+        basket.add(apples);
+        basket.add(oranges);
+        basket.add(peaches);
+        basket.add(bananas);
+        basket.add(pears);
+        basket.add(watermelons);
+        basket.add(oranges);
 
-        firstBasket.printContents();
+        basket.printContents();
         System.out.println();
-        System.out.print(firstBasket);
-        System.out.printf("Общая стоимость товаров - %d%n", firstBasket.getTotalCost());
-        findInBasket(firstBasket, "Персики");
-        findInBasket(firstBasket, "Арбузы");
-        firstBasket.clear();
-        firstBasket.printContents();
-        System.out.printf("Общая стоимость товаров - %d%n", firstBasket.getTotalCost());
-        findInBasket(firstBasket, "Яблоки");
+        System.out.println(basket);
+        System.out.printf("Общая стоимость товаров - %d%n", basket.getTotalCost());
+        findInBasket(basket, "Персики");
+        findInBasket(basket, "Арбузы");
+//        Очистка корзины отключена для тестирования задания №5
+//        basket.clear();
+//        basket.printContents();
+//        System.out.printf("Общая стоимость товаров - %d%n", basket.getTotalCost());
+//        findInBasket(basket, "Яблоки");
 
         //Test work 3
         System.out.printf("%n3. Тест работы Полиморфизм и Интерфейсы.%n");
@@ -83,10 +86,9 @@ public class App {
 
         System.out.println(searchEngine);
 
-        Searchable[] arr = searchEngine.search("Яблок");
-        System.out.println(Arrays.toString(arr));
-        System.out.println();
-        for (Searchable searchable : arr) {
+        List<Searchable> list = searchEngine.search("Яблок");
+        System.out.println(list);
+        for (Searchable searchable : list) {
             if (searchable != null) {
                 System.out.println(searchable.getStringRepresentation());
             }
@@ -96,16 +98,38 @@ public class App {
             System.out.println(searchEngine.searchForMostSuitable("о"));
         } catch (BestResultNotFound e) {
             System.out.println(e.toString());
-            e.printStackTrace();
         }
         System.out.println("   --- SearchEngine.searchForMostSuitable(\"Кукуруза\") ---");
         try {
             System.out.println(searchEngine.searchForMostSuitable("Кукуруза"));
         } catch (BestResultNotFound e) {
             System.out.println(e.toString());
-            e.printStackTrace();
         }
-        System.out.println("Завершение проверки кода.");
+
+        // Test 5 - Java Collections Framework: List
+        System.out.println();
+        System.out.println("5. Тест --- Java Collections Framework: List ---");
+        Product toBeRemoved = oranges;
+        System.out.println("Удаляем существующий продукт из корзины: " +
+                toBeRemoved.getName());
+        List<Product> listRemovedProducts = basket.removeByName(toBeRemoved.getName());
+        System.out.println("Список удалённы объектов:");
+        printListProduct(listRemovedProducts);
+        System.out.println(basket);
+        System.out.println("Удаляем несуществующий продукт из корзины: " +
+                toBeRemoved.getName());
+        listRemovedProducts = basket.removeByName(toBeRemoved.getName());
+        System.out.println("Список удалённы объектов:");
+        printListProduct(listRemovedProducts);
+        System.out.println(basket);
+    }
+
+    private static void printListProduct(List<Product> listProducts) {
+        if (listProducts.isEmpty()) {
+            System.out.println("Список пуст.");
+        } else {
+            System.out.println(listProducts);
+        }
     }
 
     public static void findInBasket(ProductBasket basket, String name) {

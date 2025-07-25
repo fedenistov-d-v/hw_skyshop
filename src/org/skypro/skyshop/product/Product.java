@@ -39,7 +39,7 @@ public abstract class Product implements Searchable {
 
     @Override
     public String toString() {
-        return String.format("%s: %n", name);
+        return String.format("%s: ", name);
     }
 
     @Override

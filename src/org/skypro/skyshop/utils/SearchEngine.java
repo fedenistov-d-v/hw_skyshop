@@ -3,25 +3,21 @@ package org.skypro.skyshop.utils;
 import org.skypro.skyshop.exceptions.BestResultNotFound;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class SearchEngine {
-    private static final int NUMBER_OF_FOUND = 5;
-    private Searchable[] contents;
+    private List<Searchable> contents;
 
     public SearchEngine(int size) {
-        this.contents = new Searchable[size];
+        this.contents = new LinkedList<>();
     }
 
-    public Searchable[] search(String term) {
-        int count = 0;
-        Searchable[] foundContents = new Searchable[NUMBER_OF_FOUND];
-        for (Searchable content : contents) {
-            if (content.getSearchTerm().contains(term)) {
-                foundContents[count] = content;
-                count++;
-            }
-            if (count == NUMBER_OF_FOUND) break;
+    public List<Searchable> search(String term) {
+        List<Searchable> foundContents = new LinkedList<>();
+        for (final Searchable content : contents) {
+            if (content.getSearchTerm().contains(term)) foundContents.add(content);
         }
         return foundContents;
     }
@@ -56,13 +52,7 @@ public class SearchEngine {
     }
 
     public void add(Searchable object) {
-        for (int i = 0; i < contents.length; i++) {
-            if (contents[i] == null) {
-                contents[i] = object;
-                return;
-            }
-        }
-        System.out.println("Переполнение массива, объукт не добавлен");
+        contents.add(object);
     }
 
     @Override
@@ -72,6 +62,7 @@ public class SearchEngine {
             if (searchable != null)
                 printBasket.append(searchable.getStringRepresentation()).append('\n');
         }
+        printBasket.deleteCharAt(printBasket.length() - 1);
         return printBasket.toString();
     }
 
@@ -84,6 +75,6 @@ public class SearchEngine {
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(contents);
+        return Objects.hash(contents);
     }
 }
