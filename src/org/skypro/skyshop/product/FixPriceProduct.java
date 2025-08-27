@@ -20,7 +20,7 @@ public class FixPriceProduct extends Product {
 
     @Override
     public String toString() {
-        return String.format("%s: Фиксированая цена %d%n",
+        return String.format("%s: Фиксированая цена %d",
                 name, FIX_PRICE);
     }
 

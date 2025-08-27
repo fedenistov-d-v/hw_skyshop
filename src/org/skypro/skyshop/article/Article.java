@@ -38,7 +38,7 @@ public final class Article implements Searchable {
 
     @Override
     public String toString() {
-        return String.format("%s - %s%n",
+        return String.format("%s - %s",
                 headline, text);
     }
 

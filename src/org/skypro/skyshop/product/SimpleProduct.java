@@ -26,7 +26,7 @@ public class SimpleProduct extends Product {
 
     @Override
     public String toString() {
-        return String.format("%s: %d%n", name, price);
+        return String.format("%s: %d", name, price);
     }
 
     @Override
