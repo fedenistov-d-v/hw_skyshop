@@ -12,6 +12,7 @@ import org.skypro.skyshop.utils.Searchable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class App {
     public static void main(String[] args) {
@@ -26,7 +27,7 @@ public class App {
         DiscountedProduct strawberry = null;
 
         try {
-            apples = new SimpleProduct("Яблоки", 149);
+            apples = new SimpleProduct("Яблок_9", 149);
             oranges = new DiscountedProduct("Апельсины", 300, 15);
             peaches = new DiscountedProduct("Персики", 500, 22);
             bananas = new FixPriceProduct("Бананы");
@@ -63,10 +64,10 @@ public class App {
         //Test work 3
         System.out.printf("%n3. Тест работы Полиморфизм и Интерфейсы.%n");
         SearchEngine searchEngine = new SearchEngine(10);
-        Article articleApples = new Article("Яблоки",
+        Article articleApples = new Article("Яблок_1",
                 "Из яблок можно приготовить самое большое количество блюд, " +
                         "чем из других фруктов.");
-        Article articleOrange = new Article("Апельсины",
+        Article articleOrange = new Article("Апельсин",
                 "Свежевыжатый апельсиновый сок самый востребованный сок в мире");
         Article articleCherry = new Article("Вишня",
                 "Лучшие соки из нашей вишни. И самые вкусные пироги");
@@ -86,12 +87,10 @@ public class App {
 
         System.out.println(searchEngine);
 
-        List<Searchable> list = searchEngine.search("Яблок");
+        Map<String, Searchable> list = searchEngine.search("Яблок");
         System.out.println(list);
-        for (Searchable searchable : list) {
-            if (searchable != null) {
-                System.out.println(searchable.getStringRepresentation());
-            }
+        for (Map.Entry<String, Searchable> obj: list.entrySet()) {
+            System.out.println(obj.getValue().getStringRepresentation());
         }
         System.out.println("   --- SearchEngine.searchForMostSuitable(\"о\") ---");
         try {

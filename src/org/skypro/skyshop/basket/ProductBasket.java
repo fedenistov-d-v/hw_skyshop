@@ -5,28 +5,32 @@ import org.skypro.skyshop.product.Product;
 import java.util.*;
 
 public class ProductBasket {
-    private List<Product> content;
+    private Map<String, List<Product>> content;
 
     public ProductBasket() {
-        this.content = new LinkedList<>();
+        this.content = new LinkedHashMap<>();
     }
 
     public void add(Product newProduct) {
-        content.add(newProduct);
+        content.computeIfAbsent(newProduct.getName(), k -> new LinkedList<>()).add(newProduct);
     }
 
     public int getTotalCost() {
         int totalCost = 0;
-        for (final Product product : content) {
-            totalCost += product.getPrice();
+        for (Map.Entry<String, List<Product>> prods : content.entrySet()) {
+            for (final Product product : prods.getValue()) {
+                totalCost += product.getPrice();
+            }
         }
         return totalCost;
     }
 
     public int countNumberSpecial() {
         int count = 0;
-        for (final Product product : content) {
-            if (product.isSpecial()) count += 1;
+        for (Map.Entry<String, List<Product>> prods : content.entrySet()) {
+            for (final Product product : prods.getValue()) {
+                if (product.isSpecial()) count += 1;
+            }
         }
         return count;
     }
@@ -36,31 +40,25 @@ public class ProductBasket {
             System.out.println("В корзине пусто.");
             return;
         }
-        for (final Product product : content) {
-            System.out.print(product);
-            System.out.println();
+        for (Map.Entry<String, List<Product>> prods : content.entrySet()) {
+            for (final Product product : prods.getValue()) {
+                System.out.print(product);
+                System.out.println();
+            }
         }
         System.out.printf("Итого: %d%n", getTotalCost());
         System.out.printf("Специальных товаров: %d%n", countNumberSpecial());
     }
 
     public boolean findProduct(String name) {
-        for (final Product product : content) {
-            if (product.getName().equals(name))
-                return true;
-        }
-        return false;
+        return content.containsKey(name);
     }
 
     public List<Product> removeByName(String name) {
         List<Product> removed = new LinkedList<>();
-        Iterator<Product> iterator = content.iterator();
-        while (iterator.hasNext()) {
-            Product product = iterator.next();
-            if (product.getName().equals(name)) {
-                removed.add(product);
-                iterator.remove();
-            }
+        if (content.containsKey(name)) {
+            removed = content.get(name);
+            content.remove(name);
         }
         return removed;
     }
@@ -72,9 +70,11 @@ public class ProductBasket {
     @Override
     public String toString() {
         StringBuilder printBasket = new StringBuilder("Содержание корзины:" + '\n');
-        for (final Product product : content) {
-            printBasket.append(product);
-            printBasket.append('\n');
+        for (Map.Entry<String, List<Product>> prods : content.entrySet()) {
+            for (final Product product : prods.getValue()) {
+                printBasket.append(product);
+                printBasket.append('\n');
+            }
         }
         printBasket.deleteCharAt(printBasket.length() - 1);
         return printBasket.toString();
