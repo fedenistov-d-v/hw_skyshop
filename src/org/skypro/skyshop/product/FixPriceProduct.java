@@ -24,11 +24,4 @@ public class FixPriceProduct extends Product {
                 name, FIX_PRICE);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        FixPriceProduct that = (FixPriceProduct) o;
-        return name.equals(that.name);
-    }
 }

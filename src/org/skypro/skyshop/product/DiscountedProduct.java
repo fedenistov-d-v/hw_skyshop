@@ -34,19 +34,4 @@ public class DiscountedProduct extends Product {
         return String.format("%s: %d (%d%%)",
                 name, getPrice(), discountInPercent);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        DiscountedProduct that = (DiscountedProduct) o;
-        return name.equals(that.name) &&
-                price == that.price &&
-                discountInPercent == that.discountInPercent;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), price, discountInPercent);
-    }
 }
