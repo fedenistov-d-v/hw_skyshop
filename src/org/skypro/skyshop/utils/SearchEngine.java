@@ -12,14 +12,7 @@ public class SearchEngine {
     }
 
     public Set<Searchable> search(String term) {
-        TreeSet<Searchable> foundContents = new TreeSet<>(new Comparator<Searchable>() {
-            @Override
-            public int compare(Searchable o1, Searchable o2) {
-                int result = Integer.compare(o2.getNameObject().length(), o1.getNameObject().length());
-                if (result == 0) return o1.getNameObject().compareTo(o2.getNameObject());
-                return result;
-            }
-        });
+        TreeSet<Searchable> foundContents = new TreeSet<>(new SearchComparator());
         for (final Searchable content : contents) {
             if (content.getSearchTerm().contains(term)) foundContents.add(content);
         }
