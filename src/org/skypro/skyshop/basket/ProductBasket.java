@@ -40,6 +40,7 @@ public class ProductBasket {
             System.out.println("В корзине пусто.");
             return;
         }
+        System.out.printf("Итого: %d%n", getTotalCost());
         for (Map.Entry<String, List<Product>> prods : content.entrySet()) {
             for (final Product product : prods.getValue()) {
                 System.out.print(product);

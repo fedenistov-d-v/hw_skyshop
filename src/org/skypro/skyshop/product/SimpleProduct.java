@@ -28,17 +28,4 @@ public class SimpleProduct extends Product {
     public String toString() {
         return String.format("%s: %d", name, price);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        SimpleProduct that = (SimpleProduct) o;
-        return name.equals(that.name) && price == that.price;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), price);
-    }
 }

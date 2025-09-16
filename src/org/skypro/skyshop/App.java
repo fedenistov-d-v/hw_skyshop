@@ -10,9 +10,9 @@ import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.utils.SearchEngine;
 import org.skypro.skyshop.utils.Searchable;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class App {
     public static void main(String[] args) {
@@ -25,6 +25,7 @@ public class App {
         SimpleProduct melons = null;
         SimpleProduct plums = null;
         DiscountedProduct strawberry = null;
+        DiscountedProduct applesDiscounted = null;
 
         try {
             apples = new SimpleProduct("Яблок_9", 149);
@@ -33,6 +34,7 @@ public class App {
             bananas = new FixPriceProduct("Бананы");
             pears = new SimpleProduct("Груши", 249);
             watermelons = new SimpleProduct("Арбузы", 25);
+            applesDiscounted = new DiscountedProduct("Яблоки со скидкой", 149, 35);
             melons = new SimpleProduct(" ", 25);
             plums = new SimpleProduct("Сливы", 0);
             strawberry = new DiscountedProduct("Клубника", 800, 101);
@@ -48,6 +50,7 @@ public class App {
         basket.add(pears);
         basket.add(watermelons);
         basket.add(oranges);
+        basket.add(applesDiscounted);
 
         basket.printContents();
         System.out.println();
@@ -84,13 +87,14 @@ public class App {
         searchEngine.add(articleLemon);
         searchEngine.add(articleApples);
         searchEngine.add(articleOrange);
+        searchEngine.add(applesDiscounted);
 
         System.out.println(searchEngine);
 
-        Map<String, Searchable> list = searchEngine.search("Яблок");
-        System.out.println(list);
-        for (Map.Entry<String, Searchable> obj: list.entrySet()) {
-            System.out.println(obj.getValue().getStringRepresentation());
+        Set<Searchable> set = searchEngine.search("Яблок");
+        System.out.println(set);
+        for (Searchable obj : set) {
+            System.out.println(obj.getStringRepresentation());
         }
         System.out.println("   --- SearchEngine.searchForMostSuitable(\"о\") ---");
         try {
