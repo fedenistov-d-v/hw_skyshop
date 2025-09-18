@@ -16,23 +16,17 @@ public class ProductBasket {
     }
 
     public int getTotalCost() {
-        int totalCost = 0;
-        for (Map.Entry<String, List<Product>> prods : content.entrySet()) {
-            for (final Product product : prods.getValue()) {
-                totalCost += product.getPrice();
-            }
-        }
-        return totalCost;
+        return content.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(Product::getPrice)
+                .sum();
     }
 
     public int countNumberSpecial() {
-        int count = 0;
-        for (Map.Entry<String, List<Product>> prods : content.entrySet()) {
-            for (final Product product : prods.getValue()) {
-                if (product.isSpecial()) count += 1;
-            }
-        }
-        return count;
+        return (int) content.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
 
     public void printContents() {
@@ -40,14 +34,14 @@ public class ProductBasket {
             System.out.println("В корзине пусто.");
             return;
         }
-        System.out.printf("Итого: %d%n", getTotalCost());
-        for (Map.Entry<String, List<Product>> prods : content.entrySet()) {
-            for (final Product product : prods.getValue()) {
-                System.out.print(product);
-                System.out.println();
-            }
-        }
-        System.out.printf("Итого: %d%n", getTotalCost());
+        int sum = content.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(p -> {
+                    System.out.println(p);
+                    return p.getPrice();
+                })
+                .sum();
+        System.out.printf("Итого: %d%n", sum);
         System.out.printf("Специальных товаров: %d%n", countNumberSpecial());
     }
 
@@ -71,12 +65,12 @@ public class ProductBasket {
     @Override
     public String toString() {
         StringBuilder printBasket = new StringBuilder("Содержание корзины:" + '\n');
-        for (Map.Entry<String, List<Product>> prods : content.entrySet()) {
-            for (final Product product : prods.getValue()) {
-                printBasket.append(product);
-                printBasket.append('\n');
-            }
-        }
+        content.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(p -> {
+                    printBasket.append(p);
+                    printBasket.append('\n');
+                });
         printBasket.deleteCharAt(printBasket.length() - 1);
         return printBasket.toString();
     }
